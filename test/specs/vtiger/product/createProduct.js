@@ -1,21 +1,33 @@
+const { assert } = require("chai")
+
 describe('crm application',async ()=>{
     it('create product',async ()=>{
         await browser.url('http://localhost:8888/')
+        await expect(browser).toHaveTitleContaining("vtiger CRM 5")
         await browser.maximizeWindow()
         await console.log( browser.getTitle());
     
         // login vtiger
         var username = "admin"
-        var password = "admin"
-        await  browser.$('//input[@name="user_name"]').setValue(username)
-        await  browser.$("//input[@name='user_password']").setValue(password)
-        await  browser.$("//input[@id='submitButton']").click()
+            var password = "root"
+            const usernameTxt =  $('//input[@name="user_name"]')
+            await usernameTxt.setValue(username)
+            const passwordTxt =  $("//input[@name='user_password']")
+            await passwordTxt.setValue(password)
+            const loginBtn = await $("//input[@id='submitButton']")
+            await loginBtn.click()
+            
+            await expect(browser).toHaveUrlContaining("index&module")
       
         //create product
-            await browser.$("//a[text()='Products']").click()
-            await browser.$("//img[@alt='Create Product...']").click()
+           const productLnk = $("//a[text()='Products']")
+           await productLnk.click()
+            const createProductIcon = $("//img[@alt='Create Product...']")
+            await createProductIcon.click()
+            await expect(browser).toHaveUrlContaining("EditView&return_action")
             var productName = "ecommerce website"
-            await browser.$("//input[@name='productname']").setValue(productName)
+           const productText = $("//input[@name='productname']")
+           await productText.setValue(productName)
         
             //dropdown action
              await browser.pause(2000)
@@ -31,15 +43,19 @@ describe('crm application',async ()=>{
                 var filepath = await browser.uploadFile("E:/Testyantra notes/selenium/JDBC.png")
                 await browser.$("//input[@id='my_file_element']").setValue(filepath)
             //save and loguot product
-                await browser.pause(2000)
-                await browser.$("//b[text()='Description Information']/../../following-sibling::tr/following-sibling::tr/following-sibling::tr/td/div//input[@title='Save [Alt+S]']").click()
+               
+               const saveBtn = $("//b[text()='Description Information']/../../following-sibling::tr/following-sibling::tr/following-sibling::tr/td/div//input[@title='Save [Alt+S]']")
+               await saveBtn.click()
+               await expect(browser).toHaveUrlContaining("Products&record")
                 var actualproductname = await $("//span[@id='dtlview_Product Name']").getText()
                 assert.include(actualproductname,productName,"product not created")
-                await browser.pause(2000)
+               
                 var administration=await browser.$("//img[@src='themes/softed/images/user.PNG']")
                 await administration.moveTo()
-                await browser.pause(2000)
-                await browser.$("//a[text()='Sign Out']").click()
+                
+                const logoutLnk = $("//a[text()='Sign Out']")
+                await logoutLnk.click()
+                await expect(browser).toHaveUrlContaining("Login&module")
             })
 
         })

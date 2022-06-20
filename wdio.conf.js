@@ -21,7 +21,7 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './test/specs/**/*.js',
+        // './test/specs/**/*.js',
         // 'test/specs/demo.js',
         // 'test/specs/launchbrowser.js',
         // 'test/specs/vtiger/loginvtiger.js'
@@ -30,7 +30,7 @@ exports.config = {
         // 'test/specs/vtiger/loginvtiger.js'
         // 'test/specs/errorMsg.js'
         // 'test/specs/assertion.js'
-        // 'test/specs/vtiger/createOrganizationWithContact.js'
+        'test/specs/vtiger/createOrganizationWithContact.js'
         // 'test/specs/vtiger/organisationWithindustryDropDown.js'
         // 'test/specs/vtiger/createDocumentWithUpload.js'
         // 'test/specs/vtiger/campaign/createCampaign.js'
@@ -40,6 +40,10 @@ exports.config = {
         // 'test/specs/vtiger/campaign/createcampaignWithProduct.js'
         // 
     ],
+    suites : {
+        smokeSuite : ['test/specs/launchbrowser.js','test/specs/vtiger/campaign/createCampaign.js','test/specs/vtiger/loginvtiger.js','test/specs/vtiger/createDocumentWithUpload.js'],
+        regressionSuite : ['test/specs/vtiger/createContact.js','test/specs/vtiger/vendor/createVendor.js']
+    },
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -72,15 +76,25 @@ exports.config = {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 5,
-        //
+        maxInstances: 2,
+        
         browserName: 'chrome',
+        // browserName: 'firefox',
+        
+
         acceptInsecureCerts: true
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    }],
+    },
+    // {
+ 
+    //     maxInstances: 2, 
+    //     browserName: 'firefox',
+    //     acceptInsecureCerts: true  
+    // }
+],
     //
     // ===================
     // Test Configurations
@@ -128,7 +142,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver'],
+    services: ['selenium-standalone'],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber

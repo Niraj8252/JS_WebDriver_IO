@@ -5,26 +5,31 @@ describe('crm application',async ()=>{
     it('create organisation with contact',async ()=>{
         await browser.url('http://localhost:8888/')
         await browser.maximizeWindow()
+        await expect(browser).toHaveTitleContaining("vtiger CRM 5")
         await console.log( browser.getTitle());
    
         //login vtiger
         var username = "admin"
-        var password = "root"
-        const usernameTxt = await $('//input[@name="user_name"]')
-        usernameTxt.setValue(username)
-        const passwordTxt = await $("//input[@name='user_password']")
-        passwordTxt.setValue(password)
-        const loginBtn = await $("//input[@id='submitButton']")
-        loginBtn.click()
-
+var password = "root"
+const usernameTxt = await $('//input[@name="user_name"]')
+await usernameTxt.setValue(username)
+const passwordTxt = await $("//input[@name='user_password']")
+await passwordTxt.setValue(password)
+const loginBtn = await $("//input[@id='submitButton']")
+await loginBtn.click()
+await expect(browser).toHaveTitleContaining("Home")
         //create orgaisation
 
-            await browser.$("//td[@class='tabUnSelected']//a[text()='Organizations']").click()
-            await browser.$("//img[@alt='Create Organization...']").click()
+            const organisationLnk = $("//td[@class='tabUnSelected']//a[text()='Organizations']")
+            await organisationLnk.click()
+            const createOrganisationIcon = $("//img[@alt='Create Organization...']")
+            await createOrganisationIcon.click()
             var organisationName = "tyss"+randomNum
-             await browser.$("//input[@name='accountname']").setValue(organisationName)
+             const organisationTextField = $("//input[@name='accountname']")
+             await organisationTextField.setValue(organisationName)
           
-            await browser.$("//input[@title='Save [Alt+S]']").click()
+            const saveOrgBtn =await browser.$("//input[@title='Save [Alt+S]']")
+            await saveOrgBtn.click()
             await browser.pause(2000)
            var actualorganisationName = await browser.$("//span[@id='dtlview_Organization Name']").getText()
             assert.include(actualorganisationName,organisationName,"organisation not created")
@@ -32,23 +37,30 @@ describe('crm application',async ()=>{
     //create contact
     //    console.log(organisationName);
     await browser.pause(2000)
-    await browser.$("//a[text()='Contacts']").click()
+   const contactLnk = $("//a[text()='Contacts']")
+   await contactLnk.click()
     await browser.pause(2000)
-    await browser.$("//img[@alt='Create Contact...']").click()
+    const createContactIcon = $("//img[@alt='Create Contact...']")
+    await createContactIcon.click()
     var contactname = "testyantra"+randomNum
-    await browser.$("//input[@name='lastname']").setValue(contactname)
-    await browser.$("//input[@name='account_name']/..//img[@src='themes/softed/images/select.gif']").click()
+    const contactTextField = $("//input[@name='lastname']")
+    await contactTextField.setValue(contactname)
+    const addorgIcon = $("//input[@name='account_name']/..//img[@src='themes/softed/images/select.gif']")
+    await addorgIcon.click()
     var sessionid = await browser.getWindowHandles()
     await browser.switchToWindow(sessionid[1])
     await browser.pause(2000)
     // await browser.switchWindow('Accounts&action')
-    await browser.$("//input[@id='search_txt']").setValue(actualorganisationName)
-    await browser.$("//input[@name='search']").click()
+   const searchorganisation = $("//input[@id='search_txt']")
+   await searchorganisation.setValue(actualorganisationName)
+   const searchBtn = $("//input[@name='search']")
+   await searchBtn.click()
     await browser.pause(2000)
     await browser.$("//a[@id='1']").click()
     // await browser.switchWindow('Contacts&action')
     await browser.switchToWindow(sessionid[0])
-    await browser.$("//input[@title='Save [Alt+S]']").click()
+   const saveContactBtn = $("//input[@title='Save [Alt+S]']")
+   await saveContactBtn.click()
     var actualcontactname = await $("//span[@id='dtlview_Last Name']").getText()
     assert.include(actualcontactname,contactname,"contact not created")
        
@@ -56,6 +68,8 @@ describe('crm application',async ()=>{
       await browser.pause(2000)
       var administration = await browser.$("//img[@src='themes/softed/images/user.PNG']")
       administration.moveTo()
-      await browser.$("//a[text()='Sign Out']").click()
+      const logoutLnk = $("//a[text()='Sign Out']")
+      await logoutLnk.click()
+      await expect(browser).toHaveUrlContaining('Login&module')
         })
 })
