@@ -1,5 +1,8 @@
+const video = require('wdio-video-reporter');
+
 exports.config = {
     //
+
     // ====================
     // Runner Configuration
     // ====================
@@ -24,21 +27,22 @@ exports.config = {
         // './test/specs/**/*.js',
         // 'test/specs/demo.js',
         // 'test/specs/launchbrowser.js',
-        // 'test/specs/vtiger/loginvtiger.js'
+        // 'test/specs/vtiger/loginvtiger.js',
         // 'test/specs/vtiger/createOrganisation.js'
         // 'test/specs/vtiger/createContact.js'
         // 'test/specs/vtiger/loginvtiger.js'
         // 'test/specs/errorMsg.js'
         // 'test/specs/assertion.js'
-        'test/specs/vtiger/createOrganizationWithContact.js'
+        // 'test/specs/vtiger/createOrganizationWithContact.js'
         // 'test/specs/vtiger/organisationWithindustryDropDown.js'
         // 'test/specs/vtiger/createDocumentWithUpload.js'
         // 'test/specs/vtiger/campaign/createCampaign.js'
-        // 'test/specs/vtiger/product/createProduct.js'
-        // 'test/specs/vtiger/vendor/createVendor.js'
+        // 'test/specs/vtiger/product/createProduct.js',
+        // 'test/specs/vtiger/vendor/createVendor.js',
         // 'test/specs/vtiger/product/createproductWithVendor.js'
         // 'test/specs/vtiger/campaign/createcampaignWithProduct.js'
-        // 
+        // 'test/specs/practice/frame.js',
+        'test/specs/practice/amazone.js'
     ],
     suites : {
         smokeSuite : ['test/specs/launchbrowser.js','test/specs/vtiger/campaign/createCampaign.js','test/specs/vtiger/loginvtiger.js','test/specs/vtiger/createDocumentWithUpload.js'],
@@ -164,10 +168,18 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    // reporters: ['spec'],
+    reporters: [['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+    }]],
 
-
-    
+    reporters: [
+        [video, {
+          saveAllVideos: false,       // If true, also saves videos for successful test cases
+          videoSlowdownMultiplier: 13, // Higher to get slower videos, lower for faster videos [Value 1-100]
+        }]],
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -269,8 +281,11 @@ exports.config = {
      * @param {Boolean} result.passed    true if test has passed, otherwise false
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterTest: async function(test, context, { error, result, duration, passed, retries }) {
+        if (error) {
+            await browser.takeScreenshot();
+          }
+    },
 
 
     /**

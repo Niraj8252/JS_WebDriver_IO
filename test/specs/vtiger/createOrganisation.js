@@ -1,3 +1,5 @@
+const { assert } = require("chai")
+
 describe('crm application',async ()=>{
   var randomNum = await Math.round(Math.random()*1000)
     it('create organisation',async ()=>{
