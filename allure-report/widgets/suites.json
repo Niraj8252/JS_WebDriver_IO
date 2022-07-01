@@ -1,1 +1,1 @@
-{"total":3,"items":[{"uid":"5cce38a401ee1994dacaf998750c74c9","name":"crm application","statistic":{"failed":1,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":2}},{"uid":"91496aa2631d786b932fd2073a68a0ea","name":"frame handling","statistic":{"failed":1,"broken":0,"skipped":0,"passed":0,"unknown":0,"total":1}},{"uid":"8957cda43815bd10c34c84ecf8e082d3","name":"create vendor","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
+{"total":0,"items":[]}

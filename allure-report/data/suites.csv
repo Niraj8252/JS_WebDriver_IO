@@ -1,5 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"failed","Wed Jun 22 15:57:01 IST 2022","Wed Jun 22 15:57:10 IST 2022","9651","","frame handling","","frame handling","frame","frame",""
-"passed","Wed Jun 22 15:55:50 IST 2022","Wed Jun 22 15:57:11 IST 2022","80459","","crm application","","crm application","create product","create product",""
-"failed","Wed Jun 22 15:55:50 IST 2022","Wed Jun 22 15:56:22 IST 2022","31401","","crm application","","crm application","vtiger application launching","vtiger application launching",""
-"passed","Wed Jun 22 14:37:49 IST 2022","Wed Jun 22 14:39:04 IST 2022","74552","","create vendor","","create vendor","pass details","pass details",""

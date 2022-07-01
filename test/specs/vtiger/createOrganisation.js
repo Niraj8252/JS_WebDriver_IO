@@ -1,35 +1,39 @@
 const { assert } = require("chai")
+const CreateNewOrganisationPage = require("../../pageobjects/VtigerPageObjects/CreateNewOrganisationPage")
+const HomePage = require("../../pageobjects/VtigerPageObjects/HomePage")
+const LoginPage = require("../../pageobjects/VtigerPageObjects/LoginPage")
+const organisationPage = require("../../pageobjects/VtigerPageObjects/OrganisationPage")
+const OrgInformationPage = require("../../pageobjects/VtigerPageObjects/OrgInformationPage")
+const fs = require('fs')
+const credentials = JSON.parse(fs.readFileSync("test/genericLibrary/commonData.json"))
 
 describe('crm application',async ()=>{
   var randomNum = await Math.round(Math.random()*1000)
+  credentials.forEach(({userName,password,organisationName}) => {
     it('create organisation',async ()=>{
-        await browser.url('http://localhost:8888/')
+    
         await browser.maximizeWindow()
+        await LoginPage.open()
         await console.log( browser.getTitle());
-        var username = "admin"
-        var password = "root"
-        const usernameTxt = await $('//input[@name="user_name"]')
-        usernameTxt.setValue(username)
-        const passwordTxt = await $("//input[@name='user_password']")
-        passwordTxt.setValue(password)
-        const loginBtn = await $("//input[@id='submitButton']")
-        loginBtn.click()
-        const organisationText =await $("//td[@class='tabUnSelected']//a[text()='Organizations']")
-        organisationText.click()
-       const createorgIcon =await $("//img[@alt='Create Organization...']")
-       createorgIcon.click()
-        var organisationname = "tyss"+randomNum
-       const orgNameTextfield= await $("//input[@name='accountname']")
-       orgNameTextfield.setValue(organisationname)
-       const saveBtn = await $("//input[@title='Save [Alt+S]']")
-       saveBtn.click()
-        var createdorganisationName = await browser.$("//span[@id='dtlview_Organization Name']")
-        var actualorganisationName = createdorganisationName.getText()
-            assert.include(actualorganisationName,organisationname,"organisation not created")
-        await browser.pause(2000)
-        var administration= await $("//img[@src='themes/softed/images/user.PNG']")
-        await administration.moveTo()
+        await expect(browser).toHaveTitleContaining("vtiger CRM 5")
+        await LoginPage.login(userName,password)
 
-      await browser.$("//a[text()='Sign Out']").click()
+       await HomePage.clickOrganizationsLnk()
+
+        await organisationPage.createOrganisationIcon()
+     
+        // var organisationname = "tyss"+randomNum
+        await CreateNewOrganisationPage.enterOrganisationTextName(organisationName)
+      
+      await CreateNewOrganisationPage.saveBtn()
+      await OrgInformationPage.assertOrgCreatedCondition()
+      
+        // var createdorganisationName = await browser.$("//span[@id='dtlview_Organization Name']")
+        // var actualorganisationName = createdorganisationName.getText()
+        //     assert.include(actualorganisationName,organisationname,"organisation not created")
+        // await browser.pause(2000)
+     await OrgInformationPage.waitTillDisplay()
+      await HomePage.clickLogoutLnk()
     })
+})
 })

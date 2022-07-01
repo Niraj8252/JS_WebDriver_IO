@@ -28,21 +28,22 @@ exports.config = {
         // 'test/specs/demo.js',
         // 'test/specs/launchbrowser.js',
         // 'test/specs/vtiger/loginvtiger.js',
-        // 'test/specs/vtiger/createOrganisation.js'
-        // 'test/specs/vtiger/createContact.js'
-        // 'test/specs/vtiger/loginvtiger.js'
-        // 'test/specs/errorMsg.js'
-        // 'test/specs/assertion.js'
-        // 'test/specs/vtiger/createOrganizationWithContact.js'
-        // 'test/specs/vtiger/organisationWithindustryDropDown.js'
-        // 'test/specs/vtiger/createDocumentWithUpload.js'
-        // 'test/specs/vtiger/campaign/createCampaign.js'
+        'test/specs/vtiger/createOrganisation.js',
+        'test/specs/vtiger/createContact.js',
+        // 'test/specs/vtiger/loginvtiger.js',
+        // 'test/specs/errorMsg.js',
+        // 'test/specs/assertion.js',
+        // 'test/specs/vtiger/createOrganizationWithContact.js',
+        // 'test/specs/vtiger/organisationWithindustryDropDown.js',
+        // 'test/specs/vtiger/createDocumentWithUpload.js',
+        // 'test/specs/vtiger/campaign/createCampaign.js',
         // 'test/specs/vtiger/product/createProduct.js',
         // 'test/specs/vtiger/vendor/createVendor.js',
-        // 'test/specs/vtiger/product/createproductWithVendor.js'
-        // 'test/specs/vtiger/campaign/createcampaignWithProduct.js'
+        // 'test/specs/vtiger/product/createproductWithVendor.js',
+        // 'test/specs/vtiger/campaign/createcampaignWithProduct.js',
         // 'test/specs/practice/frame.js',
-        'test/specs/practice/amazone.js'
+        // 'test/specs/practice/amazone.js',
+        // 'test/specs/practice/contactDemo.js'
     ],
     suites : {
         smokeSuite : ['test/specs/launchbrowser.js','test/specs/vtiger/campaign/createCampaign.js','test/specs/vtiger/loginvtiger.js','test/specs/vtiger/createDocumentWithUpload.js'],
@@ -75,27 +76,37 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
-    capabilities: [{
+    capabilities: [
+        {
     
-        // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-        // grid with only 5 firefox instances available you can make sure that not more than
-        // 5 instances get started at a time.
-        maxInstances: 2,
+//         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
+//         // grid with only 5 firefox instances available you can make sure that not more than
+//         // 5 instances get started at a time.
+
+        maxInstances: 1,
         
         browserName: 'chrome',
-        // browserName: 'firefox',
-        
-
+// 'goog:chromeOptions': {
+//     // to run chrome headless the following flags are required
+//     // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
+//     args: ['--headless', '--disable-gpu'],
+//     },       
+    
         acceptInsecureCerts: true
-        // If outputDir is provided WebdriverIO can capture driver session logs
-        // it is possible to configure which logTypes to include/exclude.
-        // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
-        // excludeDriverLogs: ['bugreport', 'server'],
-    },
+
+//         // If outputDir is provided WebdriverIO can capture driver session logs
+//         // it is possible to configure which logTypes to include/exclude.
+//         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
+//         // excludeDriverLogs: ['bugreport', 'server'],
+   },
     // {
  
-    //     maxInstances: 2, 
+    //     maxInstances: 4, 
     //     browserName: 'firefox',
+    // 'moz:firefoxOptions': {
+    //     // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
+    //     args: ['-headless']
+    //   },
     //     acceptInsecureCerts: true  
     // }
 ],
@@ -130,14 +141,14 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'http://localhost',
+    baseUrl: 'http://localhost:8888/',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 120000,
+    connectionRetryTimeout: 12000,
     //
     // Default request retries count
     connectionRetryCount: 3,
@@ -147,6 +158,7 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: ['selenium-standalone'],
+    // services: ['chromedriver'],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -168,18 +180,33 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    // reporters: ['spec'],
-    reporters: [['allure', {
-        outputDir: 'allure-results',
-        disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: false,
-    }]],
 
-    reporters: [
-        [video, {
-          saveAllVideos: false,       // If true, also saves videos for successful test cases
-          videoSlowdownMultiplier: 13, // Higher to get slower videos, lower for faster videos [Value 1-100]
-        }]],
+    reporters: ['spec'],
+
+    // reporters: [['allure', {
+    //     outputDir: 'allure-results',
+    //     disableWebdriverStepsReporting: true,
+    //     disableWebdriverScreenshotsReporting: false,
+    // }]],
+
+    // reporters: [
+    //     [video, {
+    //       saveAllVideos: false,       // If true, also saves videos for successful test cases
+    //       videoSlowdownMultiplier: 13, // Higher to get slower videos, lower for faster videos [Value 1-100]
+    //     }]],
+
+    // this is for allure report and vidio recording
+    // reporters: [
+    //     [video, {
+    //       saveAllVideos: false,       // If true, also saves videos for successful test cases
+    //       videoSlowdownMultiplier: 3, // Higher to get slower videos, lower for faster videos [Value 1-100]
+    //     }],
+    //     ['allure', {
+    //       outputDir: './_results_/allure-raw',
+    //       disableWebdriverStepsReporting: true,
+    //       disableWebdriverScreenshotsReporting: false,
+    //     }],
+    //   ],
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -281,11 +308,11 @@ exports.config = {
      * @param {Boolean} result.passed    true if test has passed, otherwise false
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    afterTest: async function(test, context, { error, result, duration, passed, retries }) {
-        if (error) {
-            await browser.takeScreenshot();
-          }
-    },
+    // afterTest: async function(test, context, { error, result, duration, passed, retries }) {
+    //     if (error) {
+    //         await browser.takeScreenshot();
+    //       }
+    // },
 
 
     /**

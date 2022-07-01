@@ -2,13 +2,15 @@ const { assert } = require("chai")
 
 describe('create vendor',async ()=>{
 
-it('pass details', async ()=>{
+it('launching applicaton -Smoke', async ()=>{
     await browser.url('http://localhost:8888/')
      await browser.maximizeWindow()
      await expect(browser).toHaveTitleContaining("vtiger CRM 5")
     await console.log( browser.getTitle())  
-        
+})
+
     //login 
+    it('login vtiger -Regrasion', async ()=>{
     var username = "admin"
     var password = "root"
     const usernameTxt = $('//input[@name="user_name"]')
@@ -19,8 +21,9 @@ it('pass details', async ()=>{
     await  loginBtn.click()
  
     await expect(browser).toHaveTitleContaining("Home")
+})
         // fill deatails
-
+        it('fill deails', async ()=>{
         var element = await $("//a[text()='More']")
         await element.moveTo()
         const vendorLnk = $("//a[@name='Vendors']")
